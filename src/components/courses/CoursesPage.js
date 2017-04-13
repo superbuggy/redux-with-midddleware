@@ -14,6 +14,7 @@ class CoursesPage extends Component {
 
     this.onTitleChange = this.onTitleChange.bind(this)
     this.onClickSave = this.onClickSave.bind(this)
+    this.onClickRemove = this.onClickRemove.bind(this)
   }
 
   onTitleChange(event) {
@@ -25,20 +26,29 @@ class CoursesPage extends Component {
   onClickSave(event) {
     this.props.actions.createCourse(this.state.course)
   }
-  courseRow(course, index){
-    return <div key={index}>{course.title}</div>
+
+  onClickRemove(event) {
+    this.props.actions.removeCourse(this.state.course)
   }
+
   render() {
+    let context = this
+    let rows = this.props.courses.map( (course, index) => (
+      <div key={index}>{course.title}
+        <button className={'btn'} onClick={context.onClickRemove}>x</button>
+      </div>
+    ) )
     return (
       <div>
         <h1>{'Courses'}</h1>
-        {this.props.courses.map(this.courseRow)}
+        {rows}
         <input
           type="text"
           onChange={this.onTitleChange}
           value={this.state.course.title}/>
 
         <input
+          className={'btn'}
           type="submit"
           onClick={this.onClickSave}
           value={'Save'} />
@@ -49,7 +59,7 @@ class CoursesPage extends Component {
 
 CoursesPage.propTypes = {
   courses: PropTypes.array.isRequired,
-  actions: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired
 }
 
 function mapStateToProps(state, ownProps) {
