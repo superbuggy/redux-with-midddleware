@@ -32,7 +32,6 @@ function mapDispatchToProps(dispatch){
   return {
     actions: bindActionCreators(courseActions, dispatch)
   }
-
 }
 
 CoursesPage.propTypes = {
